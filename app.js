@@ -24,6 +24,7 @@ app.get('/', (req, res) => {
 })
 
 app.listen(port, () => {
+  setupDir();
   console.log(` files api ${port}`)
 })
 
@@ -65,4 +66,11 @@ app.delete('/delete/:name', (req, res) => {
   fs.unlinkSync(__dirname + "/public/" + fileName);
   res.send();
 })
+
+function setupDir()
+{
+  if (!fs.existsSync(path.join(__dirname, 'public'))){
+    fs.mkdirSync(path.join(__dirname, 'public'));
+  }
+}
 
