@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+</head>
+<body>
+    
+    <div id="container" style="width: 1150px; height: auto;">
+        <div class="box" id="filesBox">
+
+            <% files.forEach(function(file) { %>
+                <div class="file" id="<%=file%>">
+                    <span>
+                        <%=url%><%=file%>
+                    </span>
+                    <button type="button" onclick="copyToClipboard('<%=url%><%=file%>')">copy to clipboard</button>
+                    <a href="/file/<%=file%>"><button type="button">download</button></a>
+                    <button type="button" onclick="deleteFile('<%=file%>')">delete</button>
+                </div>
+             <% }); %> 
+            
+        </div>
+
+        <div class="box" id="sideBox">
+
+             <h4>Upload new file</h4>
+
+            <form action="/upload" method="post" encType="multipart/form-data">
+                <input type="file" name="uploadfile">
+
+                <input type="submit" value="uplaod">
+                
+            </form>
+        </div>
+    </div>
+    
+    
+</body>
+</html>
+
+<script>
+    function deleteFile(fileName)
+    {
+        fetch(`/delete/${fileName}`, {method: 'delete'})
+        const element = document.getElementById(fileName);
+        element.remove();
+    }
+
+    function copyToClipboard(url)
+    {
+        navigator.clipboard.writeText(url);
+    }
+
+</script>
+
+<style>
+
+    .file {
+        height: 50px;
+    }
+
+    #filesBox {
+        padding-top: 10px;
+        width: 600px;
+        height: 700px;
+        float: left;
+        overflow-y: auto;
+    }
+
+    #sideBox {
+        width: 500px;
+        height: 200px;
+        float: right;
+        padding: 20px 5px 20px 5px;
+    }
+
+    .box {
+        margin: 10px 5px 5px 5px;
+        border: 1px solid black;
+    }
+</style>
